@@ -38,13 +38,15 @@ def eval_model(model, dataloader):
     model.eval()
     train_acc = []
     pred_probs = [] 
+    finalLabels = []
     for features, labels in dataloader:
             labels[labels==-1] = 0  # replace -1 classes with Zero
             pred = model(features)
             pred_probs.append(pred.detach().item())
             train_acc.append(pred.round().detach().item() ==labels.item())
+            finalLabels.append(labels.item())
 
-    return sum(train_acc)/len(train_acc), pred_probs
+    return sum(train_acc)/len(train_acc), pred_probs,finalLabels
     
 
 
